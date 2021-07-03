@@ -1,0 +1,8 @@
+一，创建虚拟环境
+1.安装pipenv
+2.创建虚拟环境
+a.打开terminal
+b.pipenv shell
+c.pipenv --venv 查看虚拟环境的路径
+3.将项目中的解释器路径改为虚拟环境的解释器
+
