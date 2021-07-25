@@ -18,23 +18,33 @@ from django.db import models
   auto_now_add：=True时创建一条数据时会自动化将当前时间赋值给该字段，只修改一次
   auto_now:=True时每次更新数据时会自动将当前时间赋值该字段
 7.可以在Meta子类中修改当前表的元数据信息，
+
+8.Projects表和interfaces表的关系,一对多的关系，往往是在多的表中添加外键字段
+9.ForeignKey：外键字段，
+  参数to="子应用名.模型类名"，
+  参数on_delete=models.CASCADE：父表数据删除时对应的从表数据被自动删除
+  参数on_delete=models.SET_NULL：父表数据删除时对应的从表数据中的外键字段被自动设置null
+  参数on_delete=models.SET_DEFAULT：父表数据删除时对应的从表数据中的外键字段被自动设置default的值
+  参数on_delete=models.PROTECT：父表数据删除时,如果存在对应的从表数据那么会抛出异常
+  
+  
 """
 
 
-class Projects(models.Model):
+class Interfaces(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="id主键", help_text="id主键")
-    name = models.CharField(verbose_name="项目名称", help_text="项目名称", max_length=20, unique=True)
-    leader = models.CharField(verbose_name="项目负责人", help_text="项目负责人", max_length=10)
-    is_execute = models.BooleanField(verbose_name="是否开展", help_text="是否开展", default=False)
-    desc = models.TextField(verbose_name="项目描述信息", help_text="项目描述信息", null=True, blank=True)
+    name = models.CharField(verbose_name="接口名称", help_text="接口名称", max_length=15, unique=True)
+    tester = models.CharField(verbose_name="测试人员", help_text="测试人员", max_length=10)
+    # 外键字段
+    projects = models.ForeignKey(to='projects.Projects', on_delete=models.CASCADE)
     create_time = models.DateTimeField(verbose_name="创建时间", help_text="创建时间", auto_now_add=True)
     update_time = models.DateTimeField(verbose_name="更新时间", help_text="更新时间", auto_now=True)
 
     class Meta:
         # 自定义表名
-        db_table = "tb_projects"
-        verbose_name = "项目表"
-        verbose_name_plural = "项目表"
+        db_table = "tb_interfaces"
+        verbose_name = "接口表"
+        verbose_name_plural = "接口表"
 
     # 魔术方法默认return出的数据，当前方法指的是返回接口的name
     def __str__(self):
