@@ -19,5 +19,6 @@ from django.urls import path, include
 # 全局路由信息
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('projects/', include('projects.urls')),
     path('projects/', include('projects.urls')),
 ]
